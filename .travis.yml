@@ -1,0 +1,24 @@
+sudo: false
+
+language: java
+
+jdk:
+  - oraclejdk8
+
+install: mvn -f build/pom.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+script: mvn -f build/pom.xml test jacoco:report -U -Dmaven.javadoc.skip=true
+
+after_success:
+  - mvn -f build/pom.xml coveralls:report
+
+cache:
+  directories:
+    - $HOME/.m2
+
+env:
+  global:
+
+branches:
+  only:
+    - master
